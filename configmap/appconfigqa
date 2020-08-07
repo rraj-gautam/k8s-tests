@@ -1,0 +1,2 @@
+DB_SERVER=sql.qa.local
+BE_SERVER=be.qa.local

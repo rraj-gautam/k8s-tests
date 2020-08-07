@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-configmap-folder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-configmap-folder
+  template:
+    metadata:
+      labels:
+        app: hello-world-configmap-folder
+    spec:
+      volumes:
+      - name: nginxconfig
+        configMap:
+          name: nginxconfig
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        volumeMounts:
+        - name: nginxconfig
+          mountPath: "/etc/nginxconfig"
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata: 
+  name: hello-jobs
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      containers:
+      - name: ubuntu 
+        image: ubuntu
+        command:
+         - "/bin/bash"
+         - "-c"
+         - "/bin/echoessss Hello from Pod $(hostname) at $(date)"
+      restartPolicy: Never     

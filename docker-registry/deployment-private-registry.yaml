@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-private-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-private-registry
+  template:
+    metadata:
+      labels:
+        app: hello-world-private-registry
+    spec:
+      containers:
+      - image: docker.io/rraj4/hello-app:1.0
+        name: hello-world
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: private-reg-cred
