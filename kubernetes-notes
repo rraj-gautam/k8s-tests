@@ -1,0 +1,1886 @@
+[root@c1-master1 ~]# kubeadm init --pod-network=10.10.10.0/24                                                
+unknown flag: --pod-network
+To see the stack trace of this error execute with --v=5 or higher
+[root@c1-master1 ~]# kubeadm init --pod-network-cidr=10.10.10.0/24
+W0421 22:58:31.782473    2058 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.2
+[preflight] Running pre-flight checks
+        [WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly
+        [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+error execution phase preflight: [preflight] Some fatal errors occurred:
+        [ERROR FileContent--proc-sys-net-bridge-bridge-nf-call-iptables]: /proc/sys/net/bridge/bridge-nf-call-iptables contents are not set to 1
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+[root@c1-master1 ~]# echo 1>/proc/sys/net/bridge/bridge-nf-call-iptables
+-bash: echo: write error: Invalid argument
+[root@c1-master1 ~]# echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+[root@c1-master1 ~]# kubeadm init --pod-network-cidr=10.10.10.0/24        
+W0421 22:59:17.256472    2191 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.2
+[preflight] Running pre-flight checks
+        [WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly
+        [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [c1-master1 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.100.10]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [c1-master1 localhost] and IPs [192.168.100.10 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [c1-master1 localhost] and IPs [192.168.100.10 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+W0421 23:01:32.342241    2191 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+W0421 23:01:32.343355    2191 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[apiclient] All control plane components are healthy after 21.502356 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config-1.18" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node c1-master1 as control-plane by adding the label "node-role.kubernetes.io/master=''"
+[mark-control-plane] Marking the node c1-master1 as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+[bootstrap-token] Using token: h0wvsq.4jey7oudnnr3pqqq
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.100.10:6443 --token h0wvsq.4jey7oudnnr3pqqq \
+    --discovery-token-ca-cert-hash sha256:05e860dd78c12914cb5bacd511b6e0c4224231051441ac8e22455f6be3b098b8 
+[root@c1-master1 ~]# mkdir -p $HOME/.kube
+[root@c1-master1 ~]# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+[root@c1-master1 ~]# sudo chown $(id -u):$(id -g) $HOME/.kube/config
+[root@c1-master1 ~]# kubectl get nodes
+NAME         STATUS     ROLES    AGE   VERSION
+c1-master1   NotReady   master   26m   v1.18.2
+[root@c1-master1 ~]# kubectl get pods
+No resources found in default namespace.
+[root@c1-master1 ~]# kubectl get pods --all-namespaces
+NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bff467f8-wbsl5             0/1     Pending   0          26m
+kube-system   coredns-66bff467f8-zvk8g             0/1     Pending   0          26m
+kube-system   etcd-c1-master1                      1/1     Running   0          26m
+kube-system   kube-apiserver-c1-master1            1/1     Running   0          26m
+kube-system   kube-controller-manager-c1-master1   1/1     Running   0          26m
+kube-system   kube-proxy-fcqhw                     1/1     Running   0          26m
+kube-system   kube-scheduler-c1-master1            1/1     Running   0          26m
+[root@c1-master1 ~]# kubectl apply -f 
+anaconda-ks.cfg  .bash_profile    .cshrc           rbac-kdd.yaml    
+.bash_history    .bashrc          .kube/           .tcshrc          
+.bash_logout     calico.yaml      .pki/            
+[root@c1-master1 ~]# kubectl apply -f rbac-kdd.yaml 
+clusterrole.rbac.authorization.k8s.io/calico-node created
+clusterrolebinding.rbac.authorization.k8s.io/calico-node created
+[root@c1-master1 ~]# kubectl apply -f calico.yaml 
+configmap/calico-config created
+serviceaccount/calico-node created
+error: unable to recognize "calico.yaml": no matches for kind "DaemonSet" in version "extensions/v1beta1"
+[root@c1-master1 ~]# wget:docs.projectcalico.org/v3.10/manifests/calico.yaml^C
+[root@c1-master1 ~]# mv calico.yaml calico.yaml_bac
+[root@c1-master1 ~]# wget:docs.projectcalico.org/v3.10/manifests/calico.yaml
+-bash: wget:docs.projectcalico.org/v3.10/manifests/calico.yaml: No such file or directory
+[root@c1-master1 ~]# wget https://docs.projectcalico.org/v3.10/manifests/calico.yaml
+--2020-04-21 23:32:02--  https://docs.projectcalico.org/v3.10/manifests/calico.yaml
+Resolving docs.projectcalico.org (docs.projectcalico.org)... 157.230.37.202, 2400:6180:0:d1::684:6001
+Connecting to docs.projectcalico.org (docs.projectcalico.org)|157.230.37.202|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 20679 (20K) [application/x-yaml]
+Saving to: ‘calico.yaml’
+
+100%[=======================================================>] 20,679      --.-K/s   in 0.1s    
+
+2020-04-21 23:32:03 (200 KB/s) - ‘calico.yaml’ saved [20679/20679]
+
+[root@c1-master1 ~]# kubectl apply -f calico.yaml
+configmap/calico-config configured
+customresourcedefinition.apiextensions.k8s.io/felixconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamblocks.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/blockaffinities.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamhandles.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamconfigs.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/hostendpoints.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/clusterinformations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworksets.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networksets.crd.projectcalico.org created
+clusterrole.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrolebinding.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrole.rbac.authorization.k8s.io/calico-node configured
+clusterrolebinding.rbac.authorization.k8s.io/calico-node configured
+daemonset.apps/calico-node created
+serviceaccount/calico-node unchanged
+deployment.apps/calico-kube-controllers created
+serviceaccount/calico-kube-controllers created
+[root@c1-master1 ~]# vi calico.yaml
+[root@c1-master1 ~]# kubectl apply -f calico.yaml
+configmap/calico-config unchanged
+customresourcedefinition.apiextensions.k8s.io/felixconfigurations.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/ipamblocks.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/blockaffinities.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/ipamhandles.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/ipamconfigs.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/hostendpoints.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/clusterinformations.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/globalnetworkpolicies.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/globalnetworksets.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/networkpolicies.crd.projectcalico.org unchanged
+customresourcedefinition.apiextensions.k8s.io/networksets.crd.projectcalico.org unchanged
+clusterrole.rbac.authorization.k8s.io/calico-kube-controllers unchanged
+clusterrolebinding.rbac.authorization.k8s.io/calico-kube-controllers unchanged
+clusterrole.rbac.authorization.k8s.io/calico-node unchanged
+clusterrolebinding.rbac.authorization.k8s.io/calico-node unchanged
+daemonset.apps/calico-node configured
+serviceaccount/calico-node unchanged
+deployment.apps/calico-kube-controllers unchanged
+serviceaccount/calico-kube-controllers unchanged
+[root@c1-master1 ~]# kubectl get pds
+error: the server doesn't have a resource type "pds"
+[root@c1-master1 ~]# kubectl get pods
+No resources found in default namespace.
+[root@c1-master1 ~]# kubectl get pods --all-namespaces
+NAMESPACE     NAME                                      READY   STATUS            RESTARTS   AGE
+kube-system   calico-kube-controllers-dc4469c7f-dlpr5   0/1     Pending           0          44s
+kube-system   calico-node-jxzfw                         0/1     PodInitializing   0          15s
+kube-system   coredns-66bff467f8-wbsl5                  0/1     Pending           0          30m
+kube-system   coredns-66bff467f8-zvk8g                  0/1     Pending           0          30m
+kube-system   etcd-c1-master1                           1/1     Running           0          30m
+kube-system   kube-apiserver-c1-master1                 1/1     Running           0          30m
+kube-system   kube-controller-manager-c1-master1        1/1     Running           0          30m
+kube-system   kube-proxy-fcqhw                          1/1     Running           0          30m
+kube-system   kube-scheduler-c1-master1                 1/1     Running           0          30m
+[root@c1-master1 ~]# kubectl get deployments --all-namespaces
+NAMESPACE     NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system   calico-kube-controllers   0/1     1            0           64s
+kube-system   coredns                   0/2     2            0           31m
+
+
+
+kubeadm token list
+kubeadm token create
+
+
+---gcloud-------------
+
+gcloud projects create demoGKE --name="Kubernetes-Cloud"
+gcloud config set project demoGKE
+
+gcloud service enable container.googleapis.com
+gcloud container clusters create  cscluster --region us-central1-a
+gcloud container clusters get-credentials cscluster --zone us-central1-a --project demoGKE
+. 
+kubectl config get-contexts
+kubectl config use-context gke_demoGKE_us-central1-a_cscluster
+kubectl config set-contexts ...
+
+kubectl get nodes
+
+delete:::
+gcloud container clusters delete cscluster --zone=us-central1-a
+
+gcloud projects delete demoGKE
+
+kubectl config get-contexts
+
+---------------------------------------------------------
+
+k8s basic commands:
+
+kubectl cluster-info
+  164  kubeadm token list
+  169  kubectl get pods --all-namespaces --watch
+  174  kubectl -n kube-system get cm kubeadm-config -oyaml
+  175  kubectl get nodes
+  176  kubectl get nodes -o wide
+  177  kubeadm version
+  178  kubectl config get-contexts
+  182  kubectl cluster-info
+  185  kubectl get pods --namespace kube-system
+  186  kubectl get pods --namespace kube-system -o wide
+  187  kubectl get all
+  188  kubectl get all --all-namespaces
+  189  kubectl api-resources|head -n 10
+  190  kubectl api-resources|grep pod
+  191  kubectl explain pod|more
+  192  kubectl explain pod.spec|more
+  193  kubectl explain pod.spec.containers|more
+  194  kubectl get no
+  195  kubectl describe nodes c1-master1
+  196  kubectl describe nodes c1-node1
+  197  kubectl -h
+  198  kubectl get -h
+  199  kubectl describe -h
+  200  kubectl describe --help
+
+Deployments: Imperative  
+  229   kubectl run hello-world --image=gcr.io/google-samples/hello-app:1.0
+  230  kubectl get pods
+  231  kubectl get deployment
+  235  kubectl get pods -o wide
+  236  kubectl logs hello-world
+  237  kubectl exec -it hello-world /bin/sh
+  238  kubectl exec -it hello-world -- /bin/sh
+  kubectl get deployment
+  kubectl describe deployment hello-world
+  kubectl expose deployment hello-world --port=80 --target-port=8080  //create endpoints service
+  kubectl get service hello-world
+  
+  
+  kubectl get service hello-world -o yaml
+  kubectl get service hello-world -o json
+  
+  kubectl get service hello-world -o yaml --export > service-hello-world.yaml
+  kubectl get deployment hello-world -o yaml > deployment-hello-world.yaml
+  
+  kubectl edit deployment hello-world
+  kubectl get endpoints hello-world
+  
+  kubectl explain service
+  kubectl explain service.spec
+  kubectl explain service.spec.ports
+  kubectl explain service.spec.ports.targetPort
+
+  
+  --- pod.yaml ---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  containers:
+  - name: hello-world
+    image: gcr.io/google-samples/hello-app:1.0
+
+ --- api-actions-verb-request-response-----------
+   412  kubectl explain pods
+  413  kubeadm version
+  414  kubectl api-resources |more
+  415  kubectl api-resources --api-group=apps |more
+  416  kubectl api-versions 
+  417  kubectl explain deployment|head
+  418  kubectl explain deployment --api-version apps.v1beta2|head
+  419  kubectl explain deployment --api-version apps.v1beta2
+  420  kubectl api-versions |sort
+  421  vi deployment.yaml
+  422  ls
+  423  kubectl apply -f pod.yaml 
+  424  kubectl get pod
+  425  kubectl get pod -o wide
+  426  kubectl get pod -v 6
+  427  kubectl get pod -v 7
+  428  kubectl get pod -v 8
+  429  kubectl get pod -v 9
+  430  kubectl get pod -v 1
+  431  kubectl get pod -v 2
+  432  kubectl get pod -v 3
+  433  kubectl get pod -v 4
+  434  kubectl get pod -v 5
+  435  kubectl get pod -v 6
+  436  kubectl proxy 
+  437  kubectl proxy &   // provides a authenticated url to use http actions to api server
+  438  netstat -anlpt|grep 8001
+  439  netstat -anlpt|grep LIST
+  440  kubectl get pod -v 6
+  441  curl -X GET http://localhost:8001/api/v1/namespaces/default/pods
+  442  curl -X GET http://localhost:8001/api/v1/namespaces/default/pods/hello-world|head -n10
+  443  fg
+  444  netstat -anlpt|grep LIST
+  445  kubectl get pods --watch -v 6 &
+  446  netstat -anlpt|grep kubectl
+  447  kubectl delete pod hello-world
+  448  kubectl apply -f pod.yaml 
+  449  fg
+  450  kubectl logs hello-world 
+  451  kubectl logs hello-world -v 6
+  452  kubectl proxy &
+  453  curl -X GET https://192.168.100.10:6443/api/v1/namespaces/default/pods/hello-world/log
+  454  curl -X GET http://localhost:8001/api/v1/namespaces/default/pods/hello-world/log
+  455  fg
+  456  cd
+  457  cp ~/.kube/config ~/.kube/config_orig
+  458  vi ~/.kube/config
+  459  kubectl get pods -v6
+  460  kubectl get pods -v 6
+  461  kubectl get pods 
+  462  kubectl get pods -v 6
+  463  cp ~/.kube/config_orig ~/.kube/config
+  464  kubectl get pods 
+  465  kubectl get pods nginx-pod -v6 
+  466  kubectl delete pod hello-world -v6
+  467  kubectl get pods
+  468  history
+  
+  ---- namespaces---
+  kubectl get ns
+  471  kubectl get pods --namespace kube-public
+  472  kubectl get pods --namespace kube-system 
+  473  kubectl get ns
+  474  kubectl api-resources --namespaced=true|head
+  475  kubectl api-resources --namespaced=false|head
+  476  kubectl describe ns
+  477  kubectl describe ns kube-system
+  478  kubectl get all --all-namespaces 
+  479  kubectl get pods --namespace kube-system
+  480  clear
+  481  kubectl create namespace palyground1
+  482  kubectl create namespace Palyground1
+  483  kubectl delete ns palyground1 
+  484  kubectl create namespace playground1 -v6
+  485  vi namespace.yaml
+  486  kubectl explain ns
+  487  vi namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: playgroundinyaml
+
+  488  kubectl apply -f namespace.yaml -v6
+  489  vi namespace.yaml
+  490  ls
+  491  mv namespace.yaml hello-world/
+  492  cd hello-world/
+  493  ls
+  494  vi pod.yaml 
+  495  kubectl apply -f namespace.yaml 
+  496  kubectl get ns
+  497  vi deployment.yaml
+  498  kubectl apply -f deployment.yaml 
+  499  vi deployment.yaml
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  labels:
+    app: hello-world
+  namespace: playground1
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 80   
+
+  500  kubectl api-versions 
+  501  kubectl explain deployment
+  502  kubectl apply -f deployment.yaml 
+  503  ls
+  504  cat ../nginx/deployment.yaml 
+  505  ls
+  506  kubectl describe deployments.apps 
+  507  kubectl describe deployments.apps
+  508  kubectl describe deployment
+  509  kubectl explain deployment
+  510  kubectl explain deployment.spec
+  511  cat ../nginx/deployment.yaml 
+  512  ls
+  513  vi deployment.yaml 
+  514  kubectl apply -f deployment.yaml 
+  515  vi deployment.yaml 
+  516  kubectl get pods
+  517  kubectl get pods --namespace playground1
+  518  kubectl get pods --namespace playground1 -o wide
+  519  kubectl get pods -n playground1
+  520  kubectl get pods --all playground1
+  521  kubectl get pods -a playground1
+  522  kubectl get all -n playground1
+  523  kubectl get all -n playground1 -o wide
+  524  kubectl delete pods --all -n playground1 
+  525  kubectl get pods -n playground1 -o wide
+  526  kubectl get all -n playground1 -o wide
+  527  kubectl delete namespaces playground1
+  
+  ----- labels---
+  kubectl label pod nginx tier=PROD app=v1    //create label
+  kubectl label pod nginx tier=PROD app=v1 --overwrite  //editing labels
+  kubectl label pod nginx tier- app-   //delete labels
+  kubectl get pods --selector tier=prod
+  kubectl get pods --show-labels
+  kubectl get pods -l 'tier in (prod,qa)'
+  
+  kubectl get nodes --show-labels
+  
+  549  mkdir nginx-labels
+  550  cd nginx-labels/
+  551  ls
+  552  vi pods.yaml
+  apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-1
+  labels:
+    app: myapp
+    deployment: v1
+    tier: prod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-2
+  labels:
+    app: myapp
+    deployment: v1.1
+    tier: prod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-3
+  labels:
+    app: myapp
+    deployment: v1.1
+    tier: qa
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-4
+  labels:
+    app: admin
+    deployment: v1
+    tier: prod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+
+  553  cat ../hello-world-namespaces/pod.yaml 
+  554  vi pods.yaml
+  555  cat pods.yaml 
+  556  cat ../hello-world-namespaces/deployment.yaml 
+  557  kubectl get pods
+  558  kubectl get ns
+  559  kubectl delete ns playgroundinyaml 
+  560  ls
+  561  vi pods.yaml 
+  562  kubectl apply -f pods.yaml 
+  563  kubectl get pods --show-labels 
+  564  kubectl describe pod nginx-pod-1 |head
+  565  kubectl get pods -l tier=prod
+  566  kubectl get pods -o wide
+  567  kubectl get pods -l tier=prod
+  568  kubectl get pods -l tier=qa
+  569  kubectl get pods --selector tier=qa
+  570  kubectl get pods -l tier=prod --show-labels 
+  571  kubectl get pods -l 'tier=prod,app=myapp' --show-labels 
+  572  kubectl get pods -l 'tier=prod,app!=myapp' --show-labels 
+  573  kubectl get pods -l 'app!=myapp' --show-labels 
+  574  kubectl get pods -l 'app!=admin' --show-labels 
+  575  kubectl get pods -l 'tier in (prod,qa)'
+  576  kubectl get pods -l 'tier notin (prod,qa)'
+  577  kubectl get pods -L tier
+  578  kubectl get pods --help
+  579  -L, --label-columns=[]
+  580  kubectl get pods -L tier,app
+  581  kubectl get pods -L tier,app --show-labels 
+  582  kubectl get pods -L tier,app,deployment
+  583  kubectl label pod nginx-pod-1 tier=perprod --ovwewrite
+  584  kubectl label pod nginx-pod-1 tier=perprod --ovewrite
+  585  kubectl label pod nginx-pod-1 tier=perprod --overwrite
+  586  kubectl get pods
+  587  kubectl get pods --show-labels
+  588  kubectl get pods -l
+  589  kubectl get pods -l tier
+  590  kubectl get pods -l tier=prod
+  591  kubectl get pods -l tier=preprod
+  592  kubectl get pods -L tier
+  593  kubectl label pod nginx-pod-1 tier=preprod --overwrite
+  594  kubectl get pods nginx-pod-1 --show-label
+  595  kubectl get pods nginx-pod-1 --show-labels
+  596  kubectl label pod nginx-pod-1 env=IR
+  597  kubectl get pods nginx-pod-1 --show-labels
+  598  kubectl label pod nginx-pod-1 env-
+  599  kubectl get pods nginx-pod-1 --show-labels
+  600  kubectl label pod --all deployment=v2 --overwrite
+  601  kubectl get pods --show-labels
+  602  kubectl delete pod -l tier=preprod
+  603  kubectl get pods --show-labels
+  604  kubectl delete pods --all -n default
+  605  ls
+  606  vi deployment.yaml
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  labels:
+    app: hello-world
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      name: hello-world
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 8080 
+
+  607  kubectl apply -f deployment.yaml 
+  608  vi deployment.yaml
+  609  kubectl apply -f deployment.yaml 
+  610  vi deployment.yaml
+  611  kubectl apply -f deployment.yaml 
+  612  vi deployment.yaml
+  613  kubectl apply -f deployment.yaml 
+  614  vi deployment.yaml
+  615  kubectl apply -f deployment.yaml 
+  616  kubectl get deploy --show-labels
+  617  kubectl get deploy -o wide
+  618  ls
+  619  vi service.yaml
+ apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: hello-world  
+ 
+  620  kubectl apply -f service.yaml 
+  621  vi service.yaml
+  622  kubectl apply -f service.yaml 
+  623  kubectl describe deployments.apps hello-world 
+  624  kubectl describe replicasets.apps hello-world
+  625  ls
+  626  vi pods.yaml 
+  627  kubectl get pods --show-labels
+  628  kubectl label pod hello-world-5575b8c58f-5pv62 pod-template-hash=debug --overwrite
+  629  kubectl get pods --show-labels
+  630  kubectl get svc
+  631  kubectl describe svc hello-world 
+  632  cat service.yaml 
+  633  kubectl describe endpoints hello-world 
+  634  kubectl get pod -o wide
+  635  kubectl get pods --show-labels 
+  636  kubectl label pod hello-world-5575b8c58f-5pv62 app=debug --overwrite
+  637  kubectl get pods --show-labels 
+  638  kubectl get svc
+  639  kubectl get svc --show labels
+  640  kubectl get svc --show-labels
+  641  kubectl describe svc hello-world 
+  642  kubectl describe endpoints hello-world 
+  643  kubectl delete deployments.apps hello-world 
+  644  kubectl delete svc hello-world 
+  645  kubectl get nodes
+  646  kubectl get pods
+  647  kubectl delete pods hello-world-5575b8c58f-5pv62
+  
+  --node selector----
+  648  kubectl get nodes --show-labels
+  649  kubectl label node c1-node2 disk=local_ssd
+  650  kubectl label node c1-node1 disk=local_gpu
+  651  kubectl get nodes --show-labels
+  652  kubectl get nodes -L disk
+  653  kubectl label node c1-node1 disk-
+  654  kubectl label node c1-node1 hardware=local_gpu
+  655  kubectl get nodes --show-labels
+  656  kubectl get nodes -L disk
+  657  kubectl get nodes -L disk hardware
+  658  kubectl get nodes -L disk,hardware
+  659  ls
+  660  cd ..
+  661  ls
+  662  mkdir nginx-node-selector
+  663  cd nginx-
+  664  cd nginx-node-selector/
+  665  vi pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-ssd
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+  nodeSelector:
+    disk: local_ssd    
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-gpu
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+  nodeSelector:
+    hardware: local_gpu    
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+ 
+ 
+  666  kubectl apply -f pod.yaml 
+  667  kubectl get nodes -L disk,hardware
+  668  kubectl get pods -o wide
+  669  kubectl label nodes c1-node1 hardware-
+  670  kubectl label nodes c1-node2 disk-
+  671  kubectl delete pod --all  
+
+  -- annotations---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  annotation: owner: Rraj
+  ...
+  
+ kubectl annotate pod nginx-pod owner=Rraj   //create annotation
+ kubectl annotate pod nginx-pod owner=Rishi --overwrite  //edit annotation
+ 
+
+ 
+ --- container managements ----
+   680   kubectl get events
+  681   kubectl get events --watch &
+  682  ls
+  683  cd nginx-labels/
+  684  ls
+  685  vi pods.yaml 
+  686  ls
+  687  cd. .
+  688  ls
+  689  cd ..
+  690  ls
+  691  cd nginx-basics/
+  692  ls
+  693  vi pods.yaml 
+  694  kubectl apply -f pods.yaml 
+  695  ls
+  696  vi pods.yaml 
+  697  kubectl apply -f pods.yaml 
+  698  ls
+  699  vi deployment.yaml 
+  700  kubectl apply -f deployment.yaml 
+  701  vi deployment.yaml 
+  702  kubectl scale deployment nginx-deployment --replicas=2
+  703  kubectl get pods -o wide
+  704  kubectl scale deployment nginx-deployment --replicas=1
+  705  kubectl get pods -o wide
+  706  kubectl -v6 exec -it nginx-deployment-7f869b5dd6-cx2w5 /bin/sh
+  707  kubectl -v6 exec -it nginx-deployment-7f869b5dd6-cx2w5 -- /bin/sh
+  708  kubectl get pods -o wide
+  709  kubectl get svc
+  710  kubectl get pods -o wide
+  711  kubectl port-forward nginx-deployment-7f869b5dd6-cx2w5 8080:80 &  //forwards a local master server port to reach node server.
+  712  curl localhost:8080
+  713  fg
+  714  kubectl delete deployments.apps --all
+  715  fg
+  716  kubectl delete pods --all
+
+  --multi container pods----
+    721  mkdir multi-container
+  722  cd multi-container/
+  723  ls
+  724  vi pod.yaml
+  
+  apiVersion: v1
+kind: Pod
+metadata: 
+  name: multicontainer-pod
+spec:
+  containers:
+  - name: producer
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ["-c", "while true; do echo $(hostname) $(date) >> /var/log/index.html; sleep 10; done"]  
+    volumeMounts:
+    - name: webcontent
+      mountPath: /var/log
+  - name: consumer
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: webcontent
+      mountPath: /usr/share/nginx/html
+  volumes:
+  - name: webcontent
+    emptyDir: {}
+    
+    
+  725  kubectl apply -f pod.yaml 
+  726  kubectl get pods
+  727  kubectl get pods -o wide
+  728  kubectl exec -it multicontainer-pod -- /bin/sh
+  729  kubectl describe pod multicontainer-pod 
+  730  kubectl exec -it multicontainer-pod -- /bin/sh
+  731  kubectl exec -it multicontainer-pod --container consumer -- /bin/sh
+  732  kubectl port-forward multicontainer-pod 8080:80 &
+  733  curl http://localhost
+  734  curl http://localhost:8080
+  735  fg
+  
+  --- pods restart policy--- lifecycle---
+  apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world-on-failure-pod
+spec:
+  containers:
+  - name: hello-world
+    image: gcr.io/google-samples/hello-app:1.0
+  restartPolicy: OnFailure 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world-never-pod
+spec:
+  containers:
+  - name: hello-world
+    image: gcr.io/google-samples/hello-app:1.0
+  restartPolicy: Never 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world-always
+spec:
+  containers:
+  - name: hello-world
+    image: gcr.io/google-samples/hello-app:1.0
+
+    
+--- container probes----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app:hello-world
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          tcpSockets:
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          httpGets:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+ ----Deployment Controller-----------
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+spec:
+  selector:
+    app: hello-world
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+
+ 
+ --matchExpression---
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  replicas: 5
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+spec:
+  selector:
+    app: hello-world
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+
+    
+    Failure:
+    transient
+    permanent
+    
+kubectl apply -f deployment.yaml --record //capture additional records like metada on rolling update
+kubectl rollout status deployment hello-world
+kubectl rollout pause deployment hello-world
+kubectl rollout resume deployment hello-world
+kubectl rollout history deployment hello-world
+kubectl rollout history deployment hello-world --revision=1
+kubectl rollout undo deployment hello-world   //rollback to previous version
+kubectl rollout undo deployment hello-world --to-revision=1 //rollback to specific version
+
+deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  replicas: 5
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 20%    //max maxUnavailable pods during update
+      maxSurge: 1            //max pods that can be created above replicaset limit in deployment
+  revisionHistoryLimit: 10   // number of revison history to keep
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        ports:
+        - containerPort: 8080
+        readinessProbe:                // pods to be ready for service
+          httpGet:
+            path: /index.html
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+spec:
+  selector:
+    app: hello-world
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+    
+ deploymentv2.yaml
+ only change from deployment.yaml is: 
+       containers:
+      - image: gcr.io/google-samples/hello-app:2.0  //new version of image
+      
+ deploymentv3-broken.yaml
+  only change from deployment.yaml is: 
+ ...
+ spec:
+  progressDeadlineSeconds: 15   //checks for 15 seconds to make a deployment fail.(if pods are not in progress) default: 10mins
+... 
+       containers:
+      - image: gcr.io/google-samples/hello:1.0  //wrong image
+      
+      
+  899  cd rolling-update/
+  900  ls
+  901  kubectl apply -f deployment.yaml 
+  902  kubectl get deployments.apps hello-world
+  903  kubectl get deployments.apps 
+  904  ls
+  905  cp deploymentv2.yaml 
+  906  cp deployment.yaml deploymentv2.yaml 
+  907  vi deploymentv2.yaml 
+  908  kubectl rollout status deployment hello-world 
+  909  kubectl apply -f deploymentv2.yaml
+  910  kubectl rollout status deployment hello-world 
+  911  echo $?
+  912  kubectl describe deployments.apps hello-world 
+  913  kubectl get replicasets.apps 
+  914  kubectl get replica
+  915  kubectl get replicasets.apps 
+  916  kubectl describe replicasets.apps hello-world-89647f747
+  917  kubectl describe replicasets.apps hello-world-559d7b4cf4
+  918  kubectl delete  deployment hello-world 
+  919  kubectl delete svc hello-world 
+  920  ls
+  921  vi deploymentv3-broken.yaml
+  922  cp deploymentv2.yaml deploymentv3-broken.yaml 
+  923  vi deploymentv3-broken.yaml 
+  924  kubectl apply -f deployment.yaml
+  925  kubectl apply -f deploymentv2.yaml
+  926  kubectl apply -f deploymentv3-broken.yaml.yaml
+  927  kubectl apply -f deploymentv3-broken.yaml
+  928  kubectl rollout status deployment hello-world 
+  929  cat deploymentv3-broken.yaml 
+  930  echo 4?
+  931  echo $?
+  932  kubectl rollout status deployment hello-world 
+  933  echo $?
+  934  kubectl get pods
+  935  kubectl get pods -o wide
+  936  kubectl get pods --show-labels
+  937  kubectl describe deployments.apps hello-world 
+  938  kubectl rollout history deployment hello-world 
+  939  kubectl rollout history deployment hello-world --revision=2
+  940  kubectl rollout history deployment hello-world --revision=3
+  941  kubectl rollout undo deployment hello-world --revision=2
+  942  kubectl rollout undo deployment hello-world --to-revision=2
+  943  kubectl rollout status deployment hello-world 
+  944  echo $?
+  945  kubectl get pods
+  946  ls
+  947  cd ..
+  948  ls
+  949  cp -a rolling-update/ rolling-update-with-probes
+  950  cd rolling-update-with-probes/
+  951  ls
+  952  vi deployment.yaml 
+  953  kubectl delete deployments hello-world
+  954  kubectl delete svc  hello-world
+  955  kubectl apply -f deployment.yaml
+  956  vi deployment
+  957  vi deployment.yaml 
+  958  kubectl apply -f deployment.yaml
+  959  vi deployment.yaml 
+  960  kubectl apply -f deployment.yaml
+  961  kubectl describe deployments.apps hello-world 
+  962  ls
+  963  cp deployment.yaml deploymentv2.yaml 
+  964  vi deploymentv2.yaml 
+  965  kubectl apply -f deployment.yaml --record
+  966  kubectl get replicasets
+  967  kubectl describe deployments.apps hello-world 
+  968  kubectl apply -f deploymentv2.yaml --record
+  969  kubectl get replicasets
+  970  kubectl describe deployments.apps hello-world 
+  971  ls
+  972  vi deployment.yaml 
+  973  kubectl rollout deployment history deployment hello-world 
+  974  kubectl rollout deployment history deployment hello-world --to-version:1
+  975  kubectl rollout deployment history deployment hello-world --to-version=1
+  976  kubectl rollout undo  deployment hello-world --to-version=1
+  977  kubectl rollout undo  deployment hello-world 
+  978  kubectl get pods
+  979  kubectl get deployments.apps 
+  980  kubectl delete deployment hello-world 
+  981  kubectl delete svc hello-world 
+  982  kubectl get deployments.apps 
+  983  kubectl apply -f deployment.yaml --record
+  984  kubectl apply -f deploymentv2.yaml --record
+  985  kubectl describe deployments.apps hello-world 
+  986  kubectl rollout undo  deployment hello-world 
+  987  kubectl delete svc hello-world 
+  988  kubectl delete deployment hello-world 
+  989  vi deployment
+  990  vi deployment.yaml 
+  991  kubectl apply -f deployment.yaml --record
+  992  kubectl describe deployments.apps hello-world 
+  993  vi deploymentv2.yaml 
+  994  kubectl apply -f deploymentv2.yaml --record
+  995  kubectl describe deployments.apps hello-world 
+  996  kubectl get replicasets
+  997  kubectl describe deployments.apps hello-world 
+  998  kubectl rollout status deployment hello-world 
+  999  kubectl rollout history deployment hello-world 
+ 1000  kubectl get replicasets.apps 
+ 1001  kubectl rollout history deployment hello-world --revision=3
+ 1002  kubectl rollout history deployment hello-world --revision=2
+ 
+ ---Scaling Deployments---
+ kubectl sacle deployment hello-world --replicas=10
+ kubectl apply -f deployment.yaml  //by editing replicas number
+ 
+ ----- daemonset-----
+ kubectl  get deployments
+ 1031  kubectl  get daemonsets
+ 1032  kubectl  get daemonsets -o wide
+ 1033  kubectl get pods -o wide
+ 1034  kubectl describe daemonsets.apps hello-world 
+ 1035  kubectl get pods --show-labels
+ 1036  kubectl get pods -l app--hello-world
+ 1037  kubectl get pods 
+ 1038  kubectl get pods -l app=hello-world
+ 1039  kubectl get pods -l app=hello-world -L
+ 1040  kubectl get pods -l app=hello-world -L app
+ 1041  kubectl get pods -l app=hello-world -L hello-world
+ 1042  kubectl get pods -l app=hello-world -L app
+ 1043  kubectl get pods -l app=hello-world |grep hello-world|head -n1|awk {'print $1'}
+ 1044  pod1=$(kubectl get pods -l app=hello-world |grep hello-world|head -n1|awk {'print $1'})
+ 1045  echo $pod1
+ 1046  kubectl label pods $pod1 app=debud --overwrite
+ 1047  kubectl get pods -o wide
+ 1048  kubectl get pods -o wide --show-labels
+ 1049  kubectl delete daemonsets.apps hello-world 
+ 1050  ls
+ 1051  mv deployment.yaml deamonset.yaml
+ 1052  mv deamonset.yaml daemonset.yaml
+ 1053  cp daemonset.yaml daemonset-nodeselector.yaml 
+ 1054  vi daemonset-nodeselector.yaml 
+ 1055  kubectl apply -f daemonset-nodeselector.yaml 
+ 1056  vi daemonset-nodeselector.yaml 
+ 1057  kubectl apply -f daemonset-nodeselector.yaml 
+ 1058  kubectl get daemonset
+ 1059  kubectl label node c1-node1 node=hello-world-ns
+ 1060  kubectl get daemonset
+ 1061  kubectl get daemonset -o wide
+ 1062  kubectl get pods -o wide
+ 1063  kubectl label node c1-node1-
+ 1064  kubectl label node c1-node1 node-
+ 1065  kubectl get pods -o wide
+ 1066  kubectl get daemonset -o wide
+ 1067  kubectl get pods -o wide
+ 1068  kubectl describe pod hello-world-6dhb7 
+ 1069  kubectl get deployments
+ 1070  kubectl delete daemonsets.apps hello-world 
+ 1071  kubectl get pods
+ 1072  kubectl delete pod hello-world-6dhb7
+ 1073  ls
+ 1074  kubectl apply -f daemonset.yaml 
+ 1075  kubectl get pods
+ 1076  kubectl get daemonsets.apps hello-world -o yaml|more
+ 1077  ls
+ 1078  cp daemonset.yaml daemonsetv2.yaml
+ 1079  vi daemonsetv2.yaml 
+ 1080  kubectl apply -f daemonsetv2.yaml 
+ 1081  kubectl rollout status daemonsets hello-world 
+ 1082  kubectl describe daemonsets.apps 
+ 1083  kubectl get pods --show-labels
+ 1084  kubectl rollout undo daemonset hello-world 
+ 1085  kubectl get pods --show-labels
+ 1086  kubectl delete daemonsets.apps hello-world 
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hello-world
+  labels:
+    app: hello-world
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 8080
+        
+----------------Jobs and CronJobs--------
+
+apiVersion: batch/v1
+kind: Job
+metadata: 
+  name: hello-Jobs
+spec:
+  //backoffLimit: 2 //runs the job for 2 more time before being failed.
+  template:
+    spec:
+      containers:
+      - name: ubuntu 
+        image: ubuntu
+        command:
+         - "/bin/bash"
+         - "-c"
+         - "/bin/echo Hello from Pod $(hostname) at $(date)"
+      restartPolicy: Never      //default: always => restart if returns nonzero exit code.   
+ 1096  vi job.yaml
+ 1097  kubectl apply -f job.yaml 
+ 1098  vi job.yaml
+ 1099  kubectl apply -f job.yaml 
+ 1100  vi job.yaml
+ 1101  kubectl apply -f job.yaml 
+ 1102  kubectl get job
+ 1103  kubectl get job --wtch
+ 1104  kubectl get job --watch
+ 1105  kubectl get pods
+ 1106  kubectl describe jobs.batch hello-jobs 
+ 1107  kubectl api-versions |job
+ 1108  kubectl api-versions |grep job
+ 1109  kubectl api-versions 
+ 1110  kubectl explain jobs
+ 1111  kubectl describe jobs.batch hello-jobs 
+ 1112  kubectl get pods -o wide
+ 1113  kubectl get pods -o wide --show-labels
+ 1114  kubectl logs hello-jobs-6lkdk
+ 1115  kubectl delete jobs.batch hello-jobs 
+ 1116  cp job.yaml job-fail.yaml
+ 1117  vi job-fail.yaml 
+ 1118  kubectl apply -f job-fail.yaml 
+ 1119  vi job-fail.yaml 
+ 1120  kubectl apply -f job-fail.yaml 
+ 1121  kubectl get pods --watch
+ 1122  kubectl get pods
+ 1123  kubectl logs hello-jobs-gj7hc
+ 1124  kubectl edit jobs.batch hello-jobs 
+ 1125  kubectl get jobs
+ 1126  kubectl describe jobs
+ 1127  kubectl edit jobs.batch hello-jobs 
+ 1128  kubectl delete jobs.batch hello-jobs 
+ 1129  cp job.yaml  job-parralel.yaml
+ 1130  vi job-parralel.yaml 
+ 
+ apiVersion: batch/v1
+kind: Job
+metadata: 
+  name: hello-jobs
+spec:
+  completions: 10  //runs 10 jobs(creates executes in 10 pods) to make the job complete
+  parallelism: 2   //runs 2 jobs(execution in 2 pods) parallelly
+  template:
+    spec:
+      containers:
+      - name: ubuntu 
+        image: ubuntu
+        command:
+         - "/bin/bash"
+         - "-c"
+         - "/bin/echo Hello from Pod $(hostname) at $(date)"
+      restartPolicy: Never
+ 
+ 1131  kubectl apply -f job-parralel.yaml 
+ 1132  kubectl get pods
+ 1133  kubectl describe job --watch
+ 1134  watch 'kubectl describe job |head -n 11'
+ 1135  kubectl get pods
+ 1136  kubectl get jobs
+ 1137  kubectl delete jobs.batch hello-jobs 
+ 
+ 
+ ---- cronjob----
+ 
+ apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello-world-cron
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:     //job template
+    spec:
+      template:
+        spec:
+          containers:
+          - name: ubuntu 
+            image: ubuntu
+            command:
+            - "/bin/bash"
+            - "-c"
+            - "/bin/echo Hello from Pod $(hostname) at $(date)"
+          restartPolicy: Never 
+
+           1149  kubectl apply -f cronjob.yaml 
+ 1150  kubectl get cronjobs.batch 
+ 1151  kubectl get pods
+ 1152  kubectl get cronjobs.batch 
+ 1153  kubectl get pods
+ 1154  kubectl get cronjobs.batch 
+ 1155  kubectl get pods
+ 1156  kubectl get cronjobs.batch 
+ 1157  kubectl describe cronjobs.batch hello-world-cron 
+ 1158  kubectl get cronjobs.batch 
+ 1159  kubectl get pods
+ 1160  kubectl get cronjobs.batch -o yaml
+ 1161  kubectl describe cronjobs.batch hello-world-cron 
+ 1162  kubectl get pods
+ 1163  kubectl delete cronjobs.batch 
+ 1164  kubectl delete cronjobs.batch hello-world-cron
+ successfulJobHistoryLimit: 3(default) (max 3 pods are stored during runing cronjobs. 1 cronjob=1 pod)
+ 
+ 
+ ------ PersistentVolume & PersistentVolumeClaim------
+  1039  cd persistentVolume/
+ 1040  vi nfs.pv.yaml    //define persistentVolume
+ 
+ apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-data
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: c1-master1
+    path: "/export/volumes/pod" 
+
+ 1041  kubectl apply -f nfs.pv.yaml 
+ 1042  kubectl get persistentvolume
+ 1043  kubectl describe persistentvolume pv-nfs-data 
+ 1044  vi nfs.pvc.yaml      //define persistentVolumeClaim
+ 
+ apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-data
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi  
+
+ 
+ 1045  kubectl apply -f nfs.pvc.yaml 
+ 1046  vi nfs.pvc.yaml 
+ 1047  kubectl apply -f nfs.pvc.yaml 
+ 1048  vi nfs.pvc.yaml 
+ 1049  kubectl apply -f nfs.pvc.yaml 
+ 1050  kubectl get persistentvolume
+ 1051  kubectl get persistentvolumeclaims 
+ 1052  kubectl describe persistentvolumeclaims pvc-nfs-data 
+ 1053  vi /export/volumes/pod/demo.html
+ 1054  vi nfs.nginx.yaml          // mount a persistentVolume to container
+ 
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-nfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx 
+  template:
+    metadata:
+      labels:
+        app: nginx 
+    spec:
+      volumes:
+      - name: webcontent
+        persistentVolumeClaim:
+          claimName: pvc-nfs-data
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: webcontent
+          mountPath: "/usr/share/nginx/html/web-app" 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-nfs-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+
+ 
+ 1055  touch nfs.nginx.yaml
+ 1056  cp ../nginx-labels/deployment.yaml nfs.nginx.yaml 
+ 1057  vi nfs.
+ 1058  vi nfs.nginx.yaml 
+ 1059  kubectl nfs.nginx.yaml 
+ 1060  kubectl apply -f nfs.nginx.yaml 
+ 1061  vi nfs.nginx.yaml 
+ 1062  kubectl apply -f nfs.nginx.yaml 
+ 1063  kubectl get svc
+ 1064  kubectl get pods
+ 1065  kubectl get deployments.apps 
+ 1066  curl http://10.109.110.9/web-app/demo.html
+ 1067  kubectl get pods -o wide
+ 1068  kubectl exec -it nginx-nfs-596984497d-khfws -- /bin/bash
+ 1069  curl 10.10.10.205/web-app/demo.html
+ 1070  ping nginx-nfs-596984497d-khfws
+ 1071  systemctl stop firewalld
+ 1072  curl http://10.109.110.9/web-app/demo.html
+ 1073  ls
+ 1074  cat nfs.pv.yaml 
+ 1075  kubectl describe persistentvolumeclaims pvc-nfs-data 
+ 1076  kubectl get persistentvolume
+ 1077  kubectl get persistentvolume -o wide
+ 1078  kubectl get persistentvolumeclaim -o wide
+ 1079  kubectl get pods
+ 1080  kubectl delete pod nginx-nfs-596984497d-khfws   //after deleting pods, new pods are created since we have not deleted deployments, and the data persists.
+ 1081  kubectl get pods
+ 1082  curl http://10.109.110.9/web-app/demo.html
+ 1083  kubectl get pods -o wide
+ 1084  curl http://10.10.10.7/web-app/demo.html
+ 1085  curl http://10.109.110.9/web-app/demo.html
+ 1086  kubectl get svc -o wide
+
+ 1089  kubectl scale deployment nginx-nfs --replicas=4
+ 1090  ls
+ 1091  vi nfs.nginx.yaml 
+ 1092  kubectl describe persistentvolumeclaims 
+ 1093  curl http://10.109.110.9/web-app/demo.html
+ 1094  kubectl get pods -o wide
+ 1095  curl http://10.109.110.9/web-app/demo.html
+ 1096  curl http://10.10.10.207/web-app/demo.html
+ 1097  kubectl delete pods --all
+ 1098  curl http://10.109.110.9/web-app/demo.html
+ 1099  kubectl get pods -o wide
+ 1100  curl http://10.10.10.10/web-app/demo.html
+ 1101  curl http://10.10.10.210/web-app/demo.html
+ 1102  curl http://10.10.10.208/web-app/demo.html
+ 1103  kubectl get pods -o wide
+ 1104  curl http://10.109.110.9/web-app/demo.html
+ 1105  kubectl delete deployments.apps nginx-nfs 
+ 1106  kubectl get persistentvolume
+ 1107  kubectl get persistentvolumeclaims 
+ 1108  vi nfs.nginx.yaml 
+ 1109  kubectl apply 0f nfs.nginx.yaml 
+ 1110  kubectl apply -f nfs.nginx.yaml 
+ 1111  kubectl get pods -o wide
+ 1112  curl http://10.10.10.12/web-app/demo.html
+ 1113  curl http://10.10.10.209/web-app/demo.html
+ 1114  kubectl delete deployments.apps nginx-nfs 
+ 1115  kubectl delete persistentvolumeclaims pvc-nfs-data 
+ 1116  kubectl get persistentvolume
+ 1117  kubectl apply -f nfs.pvc.yaml 
+ 1118  kubectl get persistentvolumeclaims 
+ 1119  kubectl get persistentvolume
+ 
+ * persistent volume comes to release status when pvc is deleted. after pvc is applied again, pv still has release status and we have pvc status pending. we cannot reclaim it again.
+ we need to reclaim in another way. i.e  need to recreate a pv again
+ to use specific pv amongs numbers of pv, use labels on pv and selector on pvc
+ 
+ 1123  kubectl delete pvc pvc-nfs-data 
+ 1124  kubectl delete pv pv-nfs-data
+ 
+ 
+ storageclass - cloud
+ kubectl get Storageclass
+ kubectl describe storageclass
+ 
+ vi azurePresistentVolumeClaim
+ 
+ apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-azure-managed
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-premium //types given by azure or cloud provider by default
+  resources:
+    requests:
+      storage: 10Gi  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-azure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx 
+  template:
+    metadata:
+      labels:
+        app: nginx 
+    spec:
+      volumes:
+      - name: webcontent
+        persistentVolumeClaim:
+          claimName: pvc-azure-managed
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: webcontent
+          mountPath: "/usr/share/nginx/html/web-app" 
+          
+  kubectl get PersistentVolume
+  
+#create custom storage class 
+  
+apiVersion: storage.k8s.io/v1
+ kind: StorageClass
+ metadata:
+   name: managed-standard-ssd 
+parameters:
+  cachingmode: Readonly
+  kind: Managed
+  storageaccounttype: standardSSD_LRS
+provisioner: kubernetes.io/azure-disk
+
+kubectl apply -f 
+kubectl get StorageClass
+kubectl describe StorageClass managed-standard-ssd 
+
+
+
+----- environment variables------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-a
+  template:
+    metadata:
+      labels:
+        app: hello-world-a
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        env:
+        - name: DATABASE_SERVERNAME
+          value: "sql.local"
+        - name: BACKEND_SEVERNAME
+          value: "be.local"
+        ports:
+        - containerPort: 8080
+        
+optimized envs:
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        envFrom:
+        - secretRef:
+            name: app1
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-a
+spec:
+  selector:
+    app: hello-world-a
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  type: ClusterIP
+
+* env variables gets shared among all pods even if deployment on any one deployment.
+check: kubectl exec -it <pod_name> -- /bin/sh -c "printenv|sort"
+
+---- secrets -----
+types:
+docker-registry
+generic
+tls
+ 1199  kubectl create secret generic app1 --form-literal=USERNAME=app1login --from-literal=PASSWORD='app1pass'
+ 1200  kubectl create secret generic app1 --from-literal=USERNAME=app1login --from-literal=PASSWORD='app1pass'
+ 1201  kubectl get secrets
+ 1202  kubectl describe secrets app1
+ 1203  kubectl describe secrets default-token-wlrq8 
+ 1204  kubectl get secrets app1 --template={{.data.USERNAME}}
+ 1205  kubectl get secrets app1 --template={{.data.USERNAME}}|base64 -d
+ 1206  echo $(kubectl get secrets app1 --template={{.data.USERNAME}}|base64 -d)
+ 1207  kubectl get secrets default-token-wlrq8 
+ 1208  kubectl get secrets default-token-wlrq8 --template={.data.namespace}
+ 1209  kubectl get secrets default-token-wlrq8 --template={{.data.namespace}}
+ 1210  kubectl get secrets default-token-wlrq8 --template={{.data.namespace}}|base64 -d
+ 1211  kubectl get secrets default-token-wlrq8 --template={{.data.token}}|base64 -d
+ 1212  kubectl get secrets default-token-wlrq8 --template={{.data.ca.crt}}|base64 -d
+ 1213  kubectl get secrets default-token-wlrq8 --template={{.data.ca.crt}}
+ 
+ --secrets as env and file---
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-sec-env
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-sec-env
+  template:
+    metadata:
+      labels:
+        app: hello-world-sec-env
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        env:
+        - name: app1user
+          valueFrom:
+            secretKeyRef:
+              name: app1   //secret name
+              key: USERNAME   //secret key
+        - name: app1pass
+          valueFrom:
+            secretKeyRef:
+              name: app1
+              key: PASSWORD
+        ports:
+        - containerPort: 8080
+
+as file:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-sec-file
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-sec-file
+  template:
+    metadata:
+      labels:
+        app: hello-world-sec-file
+    spec:
+      volumes:
+      - name: appconfig
+        secret:    //volume type
+          secretName: app1  //secret name
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        volumeMounts:
+        - name: appconfig
+          mountPath: "/etc/appconfig"
+        ports:
+        - containerPort: 8080
+
+* kubectl exec -it hello-world-sec-file-6ff5db979d-vrqqj -- /bin/sh
+  ls /etc/appconfig
+ secrets are stored as file inside them
+ 
+ --secrets: docker-registry--
+ create secret:
+ docker login
+ 1260  docker pull gcr.io/google-samples/hello-app:1.0
+ 1261  docker images
+ 1262  docker tag bc5c421ecd6c rraj4/hello-app:1.0
+ 1263  docker images
+ 1264  docker push rraj4/hello-app:1.0
+* kubectl create secret generic private-reg-cred --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
+ or
+ kubectl create secret docker-registry private-reg-cred \
+ --docker-server=https://myprivateregistry.local \
+ --docker-username=myuser
+ --docker-password=mypass
+ --docker-email=myemail
+ 
+ 1266  kubectl get secrets 
+ kubectl get secrets app1 -o yaml
+ 1267  cat /root/.docker/config.json 
+
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-private-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-private-registry
+  template:
+    metadata:
+      labels:
+        app: hello-world-private-registry
+    spec:
+      containers:
+      - image: docker.io/rraj4/hello-app:1.0
+        name: hello-world
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: private-reg-cred
+
+1274  kubectl apply -f deployment-private-registry.yaml 
+1275  kubectl describe pods 
+
+      
+---- configMap ----- can be updated on run time too.
+* create:
+kubectl create configmap appconfigprod --from-literal=DB_SEVER=sql.local --from-literal=BE_SERVER=be.local
+or
+kubectl create configmap appconfigqa --from-file=appconfigqa
+vi appconfigqa:
+DB_SERVER=sql.qa.local
+BE_SERVER=be.qa.local
+ 
+kubectl get configmaps  -o wide
+ 1297  kubectl get configmaps appconfigprod -o yaml
+ 1298  kubectl get configmaps appconfigqa -o yaml
+ 
+  vi deployment-configmap-env-prod.yaml
+  
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-sec-env
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-sec-env
+  template:
+    metadata:
+      labels:
+        app: hello-world-sec-env
+    spec:
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        envFrom:
+        - configMapRef:
+            name: appconfigprod
+        ports:
+        - containerPort: 8080
+
+ 
+  kubectl apply -f deployment-configmap-env-prod.yaml 
+ 1304  vi deployment-configmap-env-prod.yaml 
+ 1305  kubectl apply -f deployment-configmap-env-prod.yaml 
+ 1306  vi deployment-configmap-env-prod.yaml 
+ 1307  kubectl apply -f deployment-configmap-env-prod.yaml 
+ 1308  kubectl get configmaps -o wide
+ 1309  kubectl get pods
+ 1310  kubectl exec -it hello-world-sec-env-67d789b84f-8j2tm -- /bin/sh
+ 1311  ls
+ 1312  cp ../secrets/deployment-sec-file.yaml deployment-configmap-file-qa.yaml 
+ 1313  vi deployment-configmap-file-qa.yaml 
+ 
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-configmap-file
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-configmap-file
+  template:
+    metadata:
+      labels:
+        app: hello-world-configmap-file
+    spec:
+      volumes:
+      - name: appconfig
+        configMap:
+          name: appconfigqa
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        volumeMounts:
+        - name: appconfig
+          mountPath: "/etc/appconfig"
+        ports:
+        - containerPort: 8080
+
+ 
+ 1314  kubectl apply -f deployment-configmap-file-qa.yaml 
+ 1315  vi deployment-configmap-file-qa.yaml 
+ 1316  kubectl apply -f deployment-configmap-file-qa.yaml 
+ 1317  kubectl get pods
+ 1318  kubectl exec hello-world-configmap-file-788658884b-bmlmj -- /bin/sh
+ 1319  kubectl exec -it  hello-world-configmap-file-788658884b-bmlmj -- /bin/sh
+ 1320  ls
+ 1321  vi appconfigqa 
+ 1322  kubectl edit configmaps appconfigqa 
+ 
+ change the yaml file, and changes will be reflect to pod after some time.. but not on original file.
+ 
+ 1323  kubectl exec -it  hello-world-configmap-file-788658884b-bmlmj -- /bin/sh
+ 1324  ls
+ 1325  kubectl get configmaps 
+ 1326  kubectl describe configmaps appconfigqa 
+ 1327  kubectl get pods
+ 1328  kubectl exec -it  hello-world-configmap-file-788658884b-bmlmj -- cat /etc/appconfig/appconfigqa
+
+ ---configmap from folder---
+reading from directory, each file's name will be a key in configMap, by default if no key is defined
+reads all files and creates a configmap 
+**kubectl create configmap nginxconfig --from-file=./nginx-conf/ 
+
+mkdir confs
+vi dev-nginx.conf 
+vi prod-nginx.conf 
+
+ 1350  kubectl create configmap nginxconfig --from-file=./nginx-conf/
+ 1351  kubectl get configmaps 
+ 1352  kubectl describe configmaps nginxconfig 
+ 1358  vi deployment-configmap-folder-nginx.yaml 
+ 
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-configmap-folder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  hello-world-configmap-folder
+  template:
+    metadata:
+      labels:
+        app: hello-world-configmap-folder
+    spec:
+      volumes:
+      - name: nginxconfig
+        configMap:
+          name: nginxconfig
+      containers:
+      - image: gcr.io/google-samples/hello-app:1.0
+        name: hello-world
+        volumeMounts:
+        - name: nginxconfig
+          mountPath: "/etc/nginxconfig"
+        ports:
+        - containerPort: 8080
+ 
+ 1359  kubectl describe configmaps nginxconfig 
+ 1360  vi deployment-configmap-folder-nginx.yaml 
+ 1361  kubectl delete deployments.apps --all
+ 1362  kubectl apply -f deployment-configmap-folder-nginx.yaml 
+ 1363  kubectl get pods
+ 1364  kubectl exec -it hello-world-configmap-folder-549848cb88-wzrx8 -- /bin/sh
+ 1365  ls /etc/nginxconfig
+ you can see all the confs here: dev-nginx.conf and prod-nginx.conf
+
+
